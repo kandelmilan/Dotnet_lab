@@ -1,0 +1,76 @@
+using System;
+
+namespace InterfaceAbstractDemo
+{
+    // Interface declaring methods
+    public interface IOperation
+    {
+        int Calculate();
+        void Display();
+    }
+
+    // Abstract class partially implementing the interface
+    public abstract class OperationBase : IOperation
+    {
+        public int Number1 { get; set; }
+        public int Number2 { get; set; }
+
+        public OperationBase(int num1, int num2)
+        {
+            Number1 = num1;
+            Number2 = num2;
+        }
+
+        // Abstract method to be implemented by derived classes
+        public abstract int Calculate();
+
+        // Concrete method shared by all derived classes
+        public void Display()
+        {
+            Console.WriteLine($"Operands: {Number1}, {Number2}");
+        }
+    }
+
+    // Concrete Addition class
+    public class Addition : OperationBase
+    {
+        public Addition(int num1, int num2) : base(num1, num2) { }
+
+        public override int Calculate()
+        {
+            return Number1 + Number2;
+        }
+    }
+
+    // Concrete Multiplication class
+    public class Multiplication : OperationBase
+    {
+        public Multiplication(int num1, int num2) : base(num1, num2) { }
+
+        public override int Calculate()
+        {
+            return Number1 * Number2;
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            IOperation add = new Addition(10, 5);
+            add.Display();
+            Console.WriteLine("Addition Result: " + add.Calculate());
+
+            IOperation mul = new Multiplication(10, 5);
+            mul.Display();
+            Console.WriteLine("Multiplication Result: " + mul.Calculate());
+        }
+    }
+}
+
+
+output:
+Operands: 10, 5
+Addition Result: 15
+Operands: 10, 5
+Multiplication Result: 50

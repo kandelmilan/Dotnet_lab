@@ -1,0 +1,66 @@
+Controller>TestController.cs
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace OpenRedirectDemo.Controllers
+{
+    public class TestController : Controller
+    {
+        public IActionResult Index() => Content("Index");
+        public IActionResult Create() => Content("Create");
+        public IActionResult Exception() => Content("Exception");
+        public IActionResult Error() => Content("Error");
+
+        // Example of unsafe redirect
+        public IActionResult GoLocalRedirect(string url)
+            => LocalRedirect(url);
+
+        // Safer redirect with validation
+        public IActionResult GoIsLocalUrl(string url)
+        {
+            if (Url.IsLocalUrl(url))
+                return Redirect(url);
+            else
+                return RedirectToAction("Error", "Home");
+        }
+    }
+}
+
+
+------------------------------------------------------------------------------
+
+Models>ErrorViewModel.cs
+
+namespace OpenRedirectDemo.Models;
+
+public class ErrorViewModel
+{
+    public string? RequestId { get; set; }
+
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+}
+
+------------------------------------------------------------------------------
+
+View>Test>create.cshtml
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Optional if you have a layout
+}
+
+<h1>Create Page</h1>
+
+<p>This is the Create view for the TestController.</p>
+
+
+
+View>Test>Index.cshtml
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>This is Index page</h1>
+
+
+https://localhost:5287/Test/GoIsLocalUrl?url=Test/create
