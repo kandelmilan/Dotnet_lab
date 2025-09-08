@@ -1,0 +1,49 @@
+Pages>Calculate.cshtml
+@page
+@model CalculatorApp.Pages.CalculateModel
+@{
+    ViewData["Title"] = "Calculate Sum";
+}
+
+<h2>Calculate Sum</h2>
+
+<form method="post">
+    Number1<input type="text" class="form-control" asp-for="Number1" />
+    <br />
+    Number2<input type="text" class="form-control" asp-for="Number2" />
+    <br />
+    <input type="submit" class="btn btn-primary" />
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <h3>@Model.Message</h3>
+}
+
+Program.cs
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapRazorPages();
+
+app.Run();
+
